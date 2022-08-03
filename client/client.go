@@ -49,7 +49,7 @@ func (rpc *ethRpc) Call(method string, params ...interface{}) (json.RawMessage, 
 	}
 
 	if rpc.Debug {
-		fmt.Println(fmt.Sprintf("%s\nRequest: %s\nResponse: %s\n", method, body, data))
+		fmt.Println(fmt.Sprintf("%s\nRequest: %s\nResponse: %s", method, body, data))
 	}
 
 	resp := new(ethResponse)
