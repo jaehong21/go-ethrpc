@@ -17,7 +17,7 @@ func NewEthRpc(url string, debug bool) *ethRpc {
 	return rpc
 }
 
-func (rpc *ethRpc) Call(method string, params ...interface{}) (json.RawMessage, error) {
+func (rpc *ethRpc) Call(method string, params ...string) (json.RawMessage, error) {
 	request := ethRequest{
 		Id:      1,
 		JsonRpc: "2.0",
@@ -27,7 +27,7 @@ func (rpc *ethRpc) Call(method string, params ...interface{}) (json.RawMessage, 
 
 	if len(params) == 0 {
 		// prevent params: null in data
-		request.Params = make([]interface{}, 0)
+		request.Params = make([]string, 0)
 	}
 
 	body, err := json.Marshal(request)
@@ -63,14 +63,20 @@ func (rpc *ethRpc) Call(method string, params ...interface{}) (json.RawMessage, 
 	return resp.Result, nil
 }
 
-func (rpc *ethRpc) RawCall(method string, params ...interface{}) (json.RawMessage, error) {
+func (rpc *ethRpc) RawCall(method string, params ...string) (json.RawMessage, error) {
 	return rpc.Call(method, params...)
 }
 
-func (rpc *ethRpc) call(method string, target interface{}, params ...interface{}) error {
+func (rpc *ethRpc) call(method string, target interface{}, params ...string) error {
 	result, err := rpc.Call(method, params...)
 	if err != nil {
 		return err
 	}
 	return json.Unmarshal(result, target)
+}
+
+func (rpc *ethRpc) getTransaction(method string, params ...string) (*transaction, error) {
+	transaction := new(txResponse)
+	err := rpc.call(method, transaction, params...)
+	return transaction.UnmarshalJson(), err
 }

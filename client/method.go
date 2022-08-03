@@ -1,6 +1,8 @@
 package client
 
 import (
+	"encoding/json"
+	"ethrpc/utils"
 	"math/big"
 )
 
@@ -9,7 +11,7 @@ func (rpc *ethRpc) EthBlockNumber() (*big.Int, error) {
 	if err := rpc.call("eth_blockNumber", &response); err != nil {
 		return new(big.Int), err
 	}
-	return ParseHexToBigInt(response, 0), nil
+	return utils.ParseHexToBigInt(response, 0), nil
 }
 
 func (rpc *ethRpc) EthGasPrice() (*big.Float, error) {
@@ -17,7 +19,7 @@ func (rpc *ethRpc) EthGasPrice() (*big.Float, error) {
 	if err := rpc.call("eth_gasPrice", &response); err != nil {
 		return new(big.Float), err
 	}
-	return ParseHexToBigFloat(response, 9), nil
+	return utils.ParseHexToBigFloat(response, 9), nil
 }
 
 func (rpc *ethRpc) EthGetBalance(address, block string) (*big.Float, error) {
@@ -25,6 +27,18 @@ func (rpc *ethRpc) EthGetBalance(address, block string) (*big.Float, error) {
 	if err := rpc.call("eth_getBalance", &response, address, block); err != nil {
 		return new(big.Float), err
 	}
-	num := ParseHexToBigFloat(response, 18)
+	num := utils.ParseHexToBigFloat(response, 18)
 	return num, nil
+}
+
+func (rpc *ethRpc) EthGetTransactionByHash(hash string) (string, error) {
+	tx, err := rpc.getTransaction("eth_getTransactionByHash", hash)
+	if err != nil {
+		return "", err
+	}
+	result, err := json.Marshal(tx)
+	if err != nil {
+		return "", err
+	}
+	return string(result), err
 }

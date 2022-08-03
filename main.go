@@ -11,8 +11,10 @@ func main() {
 	if err := godotenv.Load(".env"); err != nil {
 		panic(err)
 	}
-	rpc := client.NewEthRpc(os.Getenv("INFURA_NODE_URL"), true)
-	// num, _ := rpc.EthGetBalance("0xae48484cF810f05C3761664d144ccd4299103545", "latest")
-	num, _ := rpc.EthGasPrice()
+	rpc := client.NewEthRpc(os.Getenv("INFURA_NODE_URL"), false)
+	// rpc := client.NewEthRpc(os.Getenv("LOCAL_NODE_URL"), true)
+	price, _ := rpc.EthGasPrice()
+	num, _ := rpc.EthGetTransactionByHash("0x5e876a1c4dd953d7fbef7950c7670823fb8d71132fd815c7d9c820f094396495")
+	fmt.Println("price: ", price)
 	fmt.Println(num)
 }
