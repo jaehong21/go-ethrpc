@@ -11,4 +11,5 @@ func main() {
 ~~~
 
 ### Reference
+https://ethereum.org/en/developers/docs/apis/json-rpc
 https://github.com/onrik/ethrpc
