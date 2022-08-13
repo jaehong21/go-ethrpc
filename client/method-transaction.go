@@ -8,7 +8,7 @@ import (
 func (rpc *ethRpc) getTransaction(method string, params ...interface{}) (*transaction, error) {
 	response := new(TxResponse)
 	err := rpc.call(method, response, params...)
-	return response.UnmarshalJson(), err
+	return response.UnmarshalJSON(), err
 }
 
 func (rpc *ethRpc) EthGetTransactionByHash(hash string) (string, error) {
