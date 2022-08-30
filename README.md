@@ -1,5 +1,5 @@
 ### Introduction
-(This is a Project that is still Working on)
+**This is a Project that is still Working on** <br />
 Golang implementation on ethereum network using json-rpc 
 
 ### Docs
