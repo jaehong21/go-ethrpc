@@ -1,5 +1,6 @@
 ### Introduction
-Golang implementation on ethereum network using json-rpc
+(This is a Project that is still Working on)
+Golang implementation on ethereum network using json-rpc 
 
 ### Docs
 ~~~
